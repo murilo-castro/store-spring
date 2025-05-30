@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mtech.course.entities.enums.OrderStatus;
 
 import jakarta.persistence.CascadeType;
@@ -100,6 +100,10 @@ public class Order implements Serializable {
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
+	}
+	
+	public Optional<Double> getTotal() {
+		return items.stream().map(OrderItem::getSubTotal).reduce(Double::sum);
 	}
 
 	@Override
