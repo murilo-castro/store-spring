@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.mtech.course.entities.User;
@@ -28,6 +27,18 @@ public class UserService {
 
 	public User insert(User user) {
 		return userRepository.save(user);
+	}
+	
+	public User update(Long id, User user) {
+		User userEntity = userRepository.getReferenceById(id);
+		updateData(userEntity, user);
+		return userRepository.save(userEntity);
+	}
+
+	private void updateData(User userEntity, User user) {
+		userEntity.setName(user.getName());
+		userEntity.setEmail(user.getEmail());
+		userEntity.setPhone(user.getPhone());
 	}
 
 	public void delete(Long id) {
